@@ -1,80 +1,55 @@
-# Kentän luonti ja koon valinta, toimittava myös muulla kuin neliön muotoisella kentällä.
-# Miinojen sijoitus kentälle satunnaiseen järjestykseen
-# Miinojen määrän valinta
-# Pystyttävä tekemään valintoja hiirellä
-# Peli tallentaa tilastoja pelatuista peleistä erilliseen tiedostoon.
-# vähintään pelin ajankohdan (päivämäärä + kellonaika), keston minuuteissa,
-# keston vuoroissa ja lopputuloksen (voitto tai häviö, kentän koko ja miinojen lukumäärä).
-# Pelissä on alkuvalikko, josta voi valita uuden pelin, lopettamisen ja tilastojen katsomisen -
-# huom! valikko voi olla tekstipohjainen, ainoastaan itse peli-ikkunan tulee olla graafinen.
-
-
-"""
-    Pelaaja voi valita hiirellä ruudukosta yhden ruudun kerrallaan.  
-    Valittu koordinaatti aukaistaan eli pelaajalle näytetään ruudun sisältö. 
-    Jos valitussa ruudussa oli miina, pelaaja häviää ja peli päättyy. Muuten menetellään seuraavasti:
-    
-        - Jos valitun ruudun viereisissä (myös viistosti!) ruuduissa on vähintään yksi piiloitettu miina, 
-          kyseessä on numeroruutu ja sen kohdalla näytetään ympäröivien miinojen lukumäärä.
-        - Jos valitun ruudun viereisissä ruuduissa ei ole miinoja (eli se on tyhjä), 
-          aukaistaan kaikki ympäröivät ja niitä ympäröivät jne. ruudut joka suuntaan niin pitkälle, 
-          että saavutetaan miinakentän raja tai ensimmäinen numeroruutu, joka myös aukaistaan.
-"""
-
-""" 
-    Peli voi päättyä kahdella tavalla:
-    - Pelaaja häviää avatessaan ruudun, johon on piilotettu miina.
-    - Pelaaja voittaa, kun kaikki miinattomat ruudut on aukaistu kentältä.
-"""
-
 
 from random import randint
 import haravasto
 import time
+
 tila = {
     "kentta": [],
-    "avaamaton_kentta": [],
+    "nakyva_kentta": [],
     "aloitusaika": 0,
     "lopetusaika": 0,
+    "korkeus": 0,
+    "leveys": 0,
+    "sec": 0,
+    "min": 0
 }
 
+kulunut_aika = None
 
 nappula = {
     "HIIRI_VASEN": "vasen",
-    "HIIRI_KESKI": "keski",
     "HIIRI_OIKEA": "oikea"
 }
 
 tilasto = {
     "Pelaaja": None,
-    "Kesto minuuteissa": 0,
+    "Tulos": "",
+    "Kesto_minuuteissa": 0,
     "Pelattu": 0,
     "Klikkaukset": 0,
     "Vaikeustaso": None,
-
+    "Miinoja": 0,
+    "Miinoja_jaljella": None,
 }
 
 
 def tyhjenna_tiedot():
 
-    tilasto["Pelaaja"] = None,
     tila["aloitusaika"] = 0
     tila["lopetusaika"] = 0
-    tilasto["Kesto minuuteissa"] = 0
     tilasto["Klikkaukset"] = 0
-    tila["kentta"] = None
+    tila["min"] = 0
+    tila["sec"] = 0
 
 
 def kysy_kentta():
     """
-    Kysytään käyttäjältä, mikä vaikeusaste valitaan. Vaikeusasteita on kolme:
-    helppo, keskivaikea ja vaikea. 
-    Valituissa vaikeusasteissa kentän koot ja miinojen lukumäärät ovat vakioita.
-    Käyttäjä voi halutessaan päättää kentän koon ja miinojen määrän itse.
+    Kysytään käyttäjältä, mikä vaikeusaste valitaan. Vaikeusasteita on neljä:
+    helppo, keskivaikea, vaikea ja custom.
+    Helpossa, keskivaikeassa ja vaikeassa kentän koot ja miinojen lukumäärät ovat vakioita.
+    Customissa käyttäjä voi päättää kentän koon ja miinojen määrän itse.
     """
 
-    print("")
-    print("Tervetuloa pelaamaan miinaharavaa!")
     print("")
     tilasto["Pelaaja"] = input("Anna nimesi: ")
     print("")
@@ -92,6 +67,10 @@ def kysy_kentta():
                 leveys = 9
                 miinoja = 10
                 tilasto["Vaikeustaso"] = "Helppo"
+                tila["korkeus"] = korkeus
+                tila["leveys"] = leveys
+                tilasto["Miinoja"] = miinoja
+                tilasto["Miinoja_jaljella"] = miinoja
                 luo_kentta(korkeus, leveys, miinoja)
                 return False
 
@@ -100,6 +79,10 @@ def kysy_kentta():
                 leveys = 16
                 miinoja = 40
                 tilasto["Vaikeustaso"] = "Keskitaso"
+                tila["korkeus"] = korkeus
+                tila["leveys"] = leveys
+                tilasto["Miinoja"] = miinoja
+                tilasto["Miinoja_jaljella"] = miinoja
                 luo_kentta(korkeus, leveys, miinoja)
                 return False
 
@@ -108,6 +91,10 @@ def kysy_kentta():
                 leveys = 30
                 miinoja = 99
                 tilasto["Vaikeustaso"] = "Vaikea"
+                tila["korkeus"] = korkeus
+                tila["leveys"] = leveys
+                tilasto["Miinoja"] = miinoja
+                tilasto["Miinoja_jaljella"] = miinoja
                 luo_kentta(korkeus, leveys, miinoja)
                 return False
 
@@ -165,13 +152,14 @@ def kysy_kentta():
 
                             else:
                                 tilasto["Vaikeustaso"] = "Custom"
+                                tila["korkeus"] = korkeus
+                                tila["leveys"] = leveys
+                                tilasto["Miinoja"] = miinoja
+                                tilasto["Miinoja_jaljella"] = miinoja
                                 luo_kentta(korkeus, leveys, miinoja)
                                 return False
             else:
-                print("")
-            print("Anna kokonaisluku väliltä 1 - 4!")
-            print("")
-            continue
+                raise ValueError
 
         except ValueError:
             print("")
@@ -179,29 +167,34 @@ def kysy_kentta():
             print("")
             continue
 
-        else:
-            luo_kentta(korkeus, leveys, miinoja)
-
 
 def luo_kentta(korkeus, leveys, miinoja):
     # Luodaan kenttä,
-    # jonka korkeus on annettu korkeus.
+    # jonka korkeus on annettu korkeus,
+    # ja leveys annettu leveys
+
+    nakyva_kentta = []
+
     for rivi in range(korkeus):
-        kentta.append([])                                                    #
-        # ja leveys annettu leveys
+        kentta.append([])
         for sarake in range(leveys):
             kentta[-1].append(" ")
 
-    jaljella = []
-    for sarake in range(leveys):
-        for rivi in range(korkeus):
-            jaljella.append((sarake, rivi))
-
     tila["kentta"] = kentta
 
-    miinoita(kentta, jaljella, miinoja)
+    for rivi in range(korkeus):
+        nakyva_kentta.append([])
+        for sarake in range(leveys):
+            nakyva_kentta[-1].append(" ")
 
-    return kentta
+    tila["nakyva_kentta"] = nakyva_kentta
+
+    jaljella = []
+    for x in range(leveys):
+        for y in range(korkeus):
+            jaljella.append((x, y))
+
+    miinoita(kentta, jaljella, miinoja)
 
 
 def miinoita(kentta, vapaat, lkm):
@@ -210,7 +203,6 @@ def miinoita(kentta, vapaat, lkm):
     """
     miinat = 0
     vapaat = []
-
     # Luuppi, joka pyörii niin kauan, kunnes haluttu miinamäärä on asetettu kentälle.
     while miinat < lkm:
         # Käy läpi kentän x ja y -suunnassa
@@ -221,6 +213,7 @@ def miinoita(kentta, vapaat, lkm):
             # siihen asetetaan miina
             kentta[x][y] = "x"
             miinat += 1
+
     print("Peli on käynnissä, rupeahan klikkailemaan!")
 
 
@@ -232,14 +225,14 @@ def laske_miinat(lista, x, y):
     """
 
     # Määritetään listan leveys
-    leveys = len(lista[0])
+    leveys = len(tila["kentta"][0])
     # Määritetään listan korkeus
-    korkeus = len(lista)
+    korkeus = len(tila["kentta"])
     miinoja = 0
 
     try:
         # Haetaan poikkeuksia tältä riviltä
-        lista[y][x]
+        tila["nakyva_kentta"][y][x]
 
     # Poikkeus syntyy, jos indeksi on listan ulkopuolella,
     except IndexError:
@@ -269,17 +262,11 @@ def tulvataytto(kentta, x, y):
     """
     leveys = len(kentta[0]) - 1
     korkeus = len(kentta) - 1
-
-    # tuntematon = " "
-    # vaarallinen = "x"
-    # turvallinen = "0"
-
     # Luodaan uusi lista, jossa on alkiona yksi monikko, joka sisältää täytön aloituspisteen
     aloituspiste = [(x, y)]
     if aloituspiste == "x":         # Jos tutkimusta yritetään aloittaa vaarallisen ruudun kohdalta kohdalta, ei tehdä mitään
-
         pass
-    if kentta[y][x] == " ":
+    if tila["kentta"][y][x] == " ":
         # Tämän jälkeen mennään silmukkaan, jossa pyöritään niin kauan, että kaikki täytettävät alueet on täytetty.
         while len(aloituspiste) > 0:
 
@@ -288,9 +275,9 @@ def tulvataytto(kentta, x, y):
             miinat = laske_miinat(kentta, x, y)
 
             # 2. Merkitään se turvalliseksi, eli merkitään planeettaan siihen kohtaan "0"
-            kentta[y][x] = "0"
+            tila["kentta"][y][x] = "0"
 
-            kentta[y][x] = str(miinat)
+            tila["nakyva_kentta"][y][x] = str(miinat)
 
             # 3. Käydään vuorotellen läpi kaikki viereiset ruudut(8 kpl) (huomioiden planeetan reunat!)
             for r in range(y - 1, y + 2):
@@ -303,7 +290,7 @@ def tulvataytto(kentta, x, y):
                         c = leveys
                     if r > korkeus:
                         r = korkeus
-                    if kentta[r][c] == " ":
+                    if tila["nakyva_kentta"][r][c] == " ":
 
                         if miinat == 0:
                             aloituspiste.append(tuple([c, r]))
@@ -319,26 +306,40 @@ def kasittele_hiiri(x, y, nappi, muokkausnapit):
 
     if nappi == haravasto.HIIRI_VASEN:
         tilasto["Klikkaukset"] += 1
+        tilasto["Tulos"] = "Kesken"
 
         if tilasto["Klikkaukset"] == 1:
             tila["aloitusaika"] = time.time()
+            piirra_kentta()
 
         if tila["kentta"][y][x] == "x":
+            for j, rivi in enumerate(tila["kentta"]):           # Tämän loppunäkymän tekemiseen mallia täältä: https://github.com/Sacach/Miinaharava/blob/master/miinaharava.py
+                for i, sarake in enumerate(rivi):
+                    if tila["kentta"][j][i] == "x":
+                        tila["nakyva_kentta"][j][i] = "x"
             tila["lopetusaika"] = time.time()
             havitty_peli()
+
         elif tila["kentta"][y][x] == " ":
             tulvataytto(kentta, x, y)
 
     if nappi == haravasto.HIIRI_OIKEA:
         tilasto["Klikkaukset"] += 1
+        tilasto["Tulos"] = "Kesken"
 
         if tilasto["Klikkaukset"] == 1:
             tila["aloitusaika"] = time.time()
 
-        if tila["kentta"][y][x] == " ":
-            tila["kentta"][y][x] = "f"
-        elif tila["kentta"][y][x] == "f":
-            tila["kentta"][y][x] = " "
+        if tila["nakyva_kentta"][y][x] == " ":
+            tila["nakyva_kentta"][y][x] = "f"
+            if tilasto["Miinoja_jaljella"] < 1:
+                print("")
+                print("Miinoja ei voi olla vähemmän kuin nolla!")
+            else:
+                tilasto["Miinoja_jaljella"] -= 1
+        elif tila["nakyva_kentta"][y][x] == "f":
+            tila["nakyva_kentta"][y][x] = " "
+            tilasto["Miinoja_jaljella"] += 1
         else:
             print("")
             print("Ruutuun ei voi laittaa lippua!")
@@ -347,16 +348,14 @@ def kasittele_hiiri(x, y, nappi, muokkausnapit):
 
         tilasto["Pelattu"] = time.strftime(
             "%d-%m-%Y, %H:%M:%S", time.localtime())
+        tilasto["Tulos"] = "Voitto"
         print("")
         print("Voitit pelin!!")
         print("")
-        haravasto.aseta_hiiri_kasittelija(kasittele_hiiri_loppu)
+        haravasto.aseta_hiiri_kasittelija(hiiri_pois_kaytosta)
+        pelin_kesto()
         print(tilasto)
         tallenna_tulokset()
-        print("")
-        print("Ruutu sulkeutuu automaattisesti 5 sekunnin kuluttua")
-        time.sleep(5)
-        haravasto.lopeta()
 
     return None
 
@@ -365,47 +364,62 @@ def tuliko_voitto():
     """
     Tutkii pelin kuluessa, milloin kaikki ruudut on avattu niin, ettei ole osuttu miinaan. 
     """
+    # Tähän funktioon mallia täältä: https://github.com/tonip57/miinaharava/blob/main/miinaharava.py
 
     for x in kentta:
         for y in x:
             if y == " " or y == "f":
                 return False
     tila["lopetusaika"] = time.time()
+
     return True
 
 
 def havitty_peli():
 
     tilasto["Pelattu"] = time.strftime("%d-%m-%Y, %H:%M:%S", time.localtime())
+    tilasto["Tulos"] = "Häviö"
     print("")
-    print("Voi voi, osuit miinaan.. peli loppui!!")
+    print("Voi voi " + tilasto["Pelaaja"] + ", osuit miinaan.. peli loppui!!")
     print("")
-    haravasto.aseta_hiiri_kasittelija(kasittele_hiiri_loppu)
+    haravasto.aseta_hiiri_kasittelija(hiiri_pois_kaytosta)
     pelin_kesto()
     print(tilasto)
     tallenna_tulokset()
-    print("")
-    print("Ruutu sulkeutuu automaattisesti 5 sekunnin kuluttua")
-    time.sleep(5)
-    haravasto.lopeta()
 
 
 def tallenna_tulokset():
 
     try:
-        with open("tulokset.txt", "a+") as kohde:
-            kohde.write("Pelaaja: {}\nKesto minuuteissa: {}\nPvm ja klo: {}\nKlikkaukset: {}\nVaikeustaso: {}\n-------\n"
+        with open("tulokset.txt", "a+") as tulos:
+            tulos.write("Pelaaja: {}\nTulos: {}\nKesto minuuteissa: {}\nPvm ja klo: {}\nKlikkaukset: {}\nVaikeustaso: {}\nKentän korkeus: {}\nKentän leveys: {}\nMiinojen lkm: {}\n-------\n"
                         .format(tilasto["Pelaaja"],
-                                tilasto["Kesto minuuteissa"],
+                                tilasto["Tulos"],
+                                tilasto["Kesto_minuuteissa"],
                                 tilasto["Pelattu"],
                                 tilasto["Klikkaukset"],
-                                tilasto["Vaikeustaso"]))
+                                tilasto["Vaikeustaso"],
+                                tila["korkeus"],
+                                tila["leveys"],
+                                tilasto["Miinoja"]))
 
     except IOError:
-        print("Tallennus epäonnistui!")
+        print("Tallennus epäonnistui!") 
 
 
-def kasittele_hiiri_loppu(x, y, nappi, muokkausnapit):
+def lataa_tulokset():
+
+    tulokset = []
+
+    try:
+        with open("tulokset.txt", "r") as tulokset:
+            print(tulokset.read())
+                
+    except IOError:
+        print("Tiedoston avaaminen epäonnistui!")
+
+
+def hiiri_pois_kaytosta(x, y, nappi, muokkausnapit):
     '''
     Ottaa hiiren toiminnot pois käytöstä, kun peli on päättynyt.
     '''
@@ -418,9 +432,19 @@ def kasittele_hiiri_loppu(x, y, nappi, muokkausnapit):
 
 def pelin_kesto():
 
-    tilasto["Kesto minuuteissa"] = round((int(
+    tilasto["Kesto_minuuteissa"] = round((int(
         tila["lopetusaika"]) - int(tila["aloitusaika"]))/60, 2)
-    
+
+
+def sekuntikello(kulunut_aika):
+
+    if tilasto["Tulos"] == "Kesken":
+        tila["sec"] += 1
+        if tila["sec"] == 60:
+            tila["min"] += 1
+            tila["sec"] = 0
+
+    return (tila["sec"])
 
 
 def piirra_kentta():
@@ -430,60 +454,68 @@ def piirra_kentta():
     ruudun näkymän päivitystä.
     """
 
-    x = 0
-    y = 0
-    teksti = ""
-
-    haravasto.aseta_piirto_kasittelija(piirra_kentta)
     haravasto.tyhjaa_ikkuna()
     haravasto.piirra_tausta()
-    haravasto.piirra_tekstia(teksti, x, y, vari=(
-        0, 0, 0, 255), fontti="serif", koko=32)
     haravasto.aloita_ruutujen_piirto()
-    for y in range(len(tila["kentta"])):
-        for x in range(len(tila["kentta"][0])):
+
+    for y in range(len(tila["nakyva_kentta"])):
+        for x in range(len(tila["nakyva_kentta"][0])):
             haravasto.lisaa_piirrettava_ruutu(
-                tila["kentta"][y][x], x * 40, y * 40)
+                tila["nakyva_kentta"][y][x], x * 40, y * 40)
     haravasto.piirra_ruudut()
+    haravasto.piirra_tekstia("Klikkaukset: {}".format(tilasto["Klikkaukset"]), 10, tila["korkeus"] * 40, vari=(
+        0, 0, 0, 255), fontti="serif", koko=13)
+    haravasto.piirra_tekstia("Miinoja: {}".format(tilasto["Miinoja_jaljella"]), 140, tila["korkeus"] * 40, vari=(
+        0, 0, 0, 255), fontti="serif", koko=13)
+    haravasto.piirra_tekstia("Aika: {:2}: {:2}".format(str(tila["min"]), str(tila["sec"])), 250, tila["korkeus"] * 40, vari=(
+        0, 0, 0, 255), fontti="serif", koko=13)
 
 
-def main(kentta):
+def main():
     """
     Lataa pelin grafiikat, luo peli-ikkunan ja asettaa siihen piirtokäsittelijän.
     """
 
     haravasto.lataa_kuvat("spritet")
-    haravasto.luo_ikkuna(len(kentta[0] * 40), len(kentta * 40))
+    haravasto.luo_ikkuna(
+        len(tila["nakyva_kentta"][0] * 40), len(tila["nakyva_kentta"] * 40) + 40)
     haravasto.aseta_piirto_kasittelija(piirra_kentta)
+    haravasto.aseta_toistuva_kasittelija(sekuntikello, 1)
     haravasto.aseta_hiiri_kasittelija(kasittele_hiiri)
     haravasto.aloita()
 
 
 if __name__ == "__main__":
-
-    kentta = []
-
-    tyhjenna_tiedot()
+  
+    print("")
+    print("Tervetuloa pelaamaan miinaharavaa! Valitse jokin seuraavista toiminnoista:")
 
     while True:
 
         print("")
-        aloitus = str(
-            input("Valitse haluamasi toiminto: (U)usi peli, (T)ilastot, (L)opeta peli): "))
+        print("(U)usi peli")
+        print("(T)ilastot")
+        print("(L)opeta peli")
         print("")
+        aloitus = str(input("Valitse toiminto: ").strip().lower())
 
-        if aloitus == "L" or aloitus == "l":
+        if aloitus == "l":
+            print("")
             print("Lopetit pelin!")
             print("")
             break
 
-        elif aloitus == "T" or aloitus == "t":
-            print(tilasto)
+        elif aloitus == "t":
+            print("")
+            print("TULOKSET LISTATTUNA, UUSIN VIIMEISENÄ:")
+            print("")
+            lataa_tulokset()
 
-        elif aloitus == "U" or aloitus == "u":
-
+        elif aloitus == "u":
+            kentta = []
+            tyhjenna_tiedot()
             kysy_kentta()
-            main(kentta)
+            main()
 
         else:
             print("")
