@@ -23,11 +23,14 @@ Toiminnot ovat: Uusi peli, Tilastot ja Lopeta peli
         4 = Custom, ruutujen ja miinojen määrän voi itse valita
         
             - Jos kenttä liian pieni, tulee virheilmoitus
+            
             - Jos miinoja alle 1 tai enemmän kuin ruutuja, tulee virheilmoitus
+            
             - Jos ruutujen tai miinojen määrä ei ole kokonaisluku, tulee virheilmoitus
 
               - Kun kaikki kysytyt tiedot on oikein asetettu, ohjelma luo halutun kokoisen kentän ja asettaa miinat kentälle 
                 satunnaiseen järjestykseen.
+                
                 - Peli-ikkuna avautuu ja miinojen etsiminen voi alkaa. Ikkunan ylälaidasta näkyvät tehtyjen klikkausten määrä, 
                   jäljellä olevien miinojen määrä, sekä kulunut aika.
 
@@ -35,7 +38,9 @@ Toiminnot ovat: Uusi peli, Tilastot ja Lopeta peli
                     tilastot näytetään tekstimuodossa. Tiedot tallentuvat tulokset.txt nimiseeen tekstitiedostoon.
 
                     - Jos ruudussa ei ole miinaa, ruudusta paljastuu joko numero tai tyhjä ruutu. 
+                    
                       - Numero kertoo sen, moneenko miinaan kyseinen ruutu on yhteydessä.
+                      
                       - Jos ruutu on tyhjä ja se on yhteydessä muihin tyhjiin ruutuihin, avautuvat kaikki siihen yhteydessä 
                         olevat tyhjät ruudut. Avautuminen päättyy tyhjien ruutujen jälkeisiin numeroruutuihin, 
                         jotka vielä avatautuvat.
