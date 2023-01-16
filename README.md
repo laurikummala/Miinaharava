@@ -12,11 +12,11 @@ Toiminnot ovat: Uusi peli, Tilastot ja Lopeta peli
   
   - Ohjelma kysyy pelaajan nimeä. Nimi voi olla mikä tahansa kirjain- tai merkkiyhdistelmä
       
-    - Vaikeustason valinta:
+    - Kun nimi on annettu, ohjelma kysyy seuraavaksi vaikeustasoa
 
         1 = Helppo, ruutuja 9 * 9 ja miinoja 10 kpl.
         
-        2 = Keskitaso, ruutuja 16 * 16 ja miinoja 40  kpl.
+        2 = Keskitaso, ruutuja 16 * 16 ja miinoja 40 kpl.
         
         3 = Vaikea, ruutuja 16 * 30 ja miinoja 99 kpl.
         
