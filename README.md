@@ -2,6 +2,14 @@
 
 Oulun yliopiston Ohjelmoinnin alkeet -kurssin lopputyö.
 
-Haravasto.py ja spritet: Mika Oja, Oulun yliopisto.
+Vaatii toimiakseen Haravasto.py ja spritet by Mika Oja, Oulun yliopisto.
 
 Karvalakkiversio.
+
+Pelissä on tekstimuotoinen valikko, josta valitaan haluttu toiminto.
+Toiminnot ovat:
+-Uusi peli
+-Tilastot
+-Lopeta
+
+
