@@ -4,24 +4,25 @@ Oulun yliopiston Ohjelmoinnin alkeet -kurssin lopputyö.
 
 Vaatii toimiakseen Haravasto.py ja spritet by Mika Oja, Oulun yliopisto.
 
-Karvalakkiversio.
-
 Pelissä on tekstimuotoinen valikko, josta valitaan haluttu toiminto.
 
 Toiminnot ovat:
 
 -UUSI PELI
   
-  -> Kysytään pelaajan nimi
-      -Nimi voi olla mikä tahansa kirjain tai merkkiyhdistelmä
+  -> Ohjelma kysyy pelaajan nimeä
+      -Nimi voi olla mikä tahansa kirjain- tai merkkiyhdistelmä
       
     -> Vaikeustason valinta:
 
-        - Helppo, ruutuja 9 * 9 ja miinoja 10 kpl
-        - Keskitaso, ruutuja 16 * 16 ja miinoja 40
-        - Vaikea, ruutuja 16 * 30 ja miinoja 99
-        - Custom, ruutujen ja miinojen määrän voi itse valita
-          - Jos kenttä liian, pieni, tulee virheilmoitus
+        1 = Helppo, ruutuja 9 * 9 ja miinoja 10 kpl.
+        
+        2 = Keskitaso, ruutuja 16 * 16 ja miinoja 40  kpl.
+        
+        3 = Vaikea, ruutuja 16 * 30 ja miinoja 99 kpl.
+        
+        4 = Custom, ruutujen ja miinojen määrän voi itse valita
+          - Jos kenttä liian pieni, tulee virheilmoitus
           - Jos miinoja liian vähän tai liikaa, tulee virheilmoitus
           - Jos ruutujen tai miinojen määrä ei ole kokonaisluku, tulee virheilmoitus
             
@@ -37,7 +38,8 @@ Toiminnot ovat:
                     - Jos ruutu on tyhjä ja se on yhteydessä muihin tyhjiin ruutuihin, avautuvat kaikki siihen yhteydessä olevat tyhjät ruudut.
                       Avautuminen päättyy tyhjien ruutujen jälkeisiin numeroruutuihin, jotka vielä avatautuvat.
                       
-                - Oletetun miinan sijainti voidaan merkata hiiren oikealla painikkeella. Ruutuun tulee tällöin huutomerkki.
+                - Oletetun miinan sijainti voidaan merkata hiiren oikealla painikkeella. Ruutuun tulee tällöin huutomerkki. Merkki voidaan poistaa
+                  painamalla hiiren oikeaa painiketta uudelleen.
                 
                 - Jos kaikki ruudut on avattu osumatta miinaan, peli päättyy voitton. Kyseisen pelin tiedot näkyvät tekstimuodossa ja tallentuvat tekstitiedostoon.
         
