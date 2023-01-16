@@ -10,9 +10,9 @@ Toiminnot ovat: Uusi peli, Tilastot ja Lopeta peli
 
 -UUSI PELI
   
-  -> Ohjelma kysyy pelaajan nimeä. Nimi voi olla mikä tahansa kirjain- tai merkkiyhdistelmä
+  - Ohjelma kysyy pelaajan nimeä. Nimi voi olla mikä tahansa kirjain- tai merkkiyhdistelmä
       
-    -> Vaikeustason valinta:
+    - Vaikeustason valinta:
 
         1 = Helppo, ruutuja 9 * 9 ja miinoja 10 kpl.
         
@@ -26,9 +26,9 @@ Toiminnot ovat: Uusi peli, Tilastot ja Lopeta peli
             - Jos miinoja alle 1 tai enemmän kuin ruutuja, tulee virheilmoitus
             - Jos ruutujen tai miinojen määrä ei ole kokonaisluku, tulee virheilmoitus
 
-              -> Kun kaikki kysytyt tiedot on oikein asetettu, ohjelma luo halutun kokoisen kentän ja asettaa miinat kentälle 
+              - Kun kaikki kysytyt tiedot on oikein asetettu, ohjelma luo halutun kokoisen kentän ja asettaa miinat kentälle 
                   satunnaiseen järjestykseen.
-                -> Peli-ikkuna avautuu ja miinojen etsiminen voi alkaa. Ikkunan ylälaidasta näkyvät tehtyjen klikkausten määrä, 
+                - Peli-ikkuna avautuu ja miinojen etsiminen voi alkaa. Ikkunan ylälaidasta näkyvät tehtyjen klikkausten määrä, 
                   jäljellä olevien miinojen määrä, 
                    sekä kulunut aika.
 
@@ -60,6 +60,6 @@ Toiminnot ovat: Uusi peli, Tilastot ja Lopeta peli
       - Miinojen lukumäärä
       
 -LOPETA
-  -> Lopettaa pelin
+  - Lopettaa pelin
 
 
