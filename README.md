@@ -26,7 +26,7 @@ Toiminnot ovat: Uusi peli, Tilastot ja Lopeta peli
             
             - Jos miinoja alle 1 tai enemmän kuin ruutuja, tulee virheilmoitus
             
-            - Jos ruutujen tai miinojen määrä ei ole kokonaisluku, tulee virheilmoitus
+            - Jos ruutujen tai miinojen määrä ei ole kokonaisluku, tulee virheilmoitus.
 
               - Kun kaikki kysytyt tiedot on oikein asetettu, ohjelma luo halutun kokoisen kentän ja asettaa miinat kentälle 
                 satunnaiseen järjestykseen.
