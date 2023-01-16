@@ -47,7 +47,7 @@ Toiminnot ovat: Uusi peli, Tilastot ja Lopeta peli
                     tekstimuodossa ja tallentuvat tulokset.txt -tekstitiedostoon.
         
 -TILASTOT
-  -> Näyttää pelatut pelit järjestyksessä uusin alimmaisena
+  - Näyttää pelatut pelit järjestyksessä uusin alimmaisena
     - Tallentaa seuraavat tiedot tekstitiedostoon:
       - Pelaajan nimi
       - Tulos: Voitto tai häviö
