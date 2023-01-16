@@ -38,7 +38,8 @@ Toiminnot ovat: Uusi peli, Tilastot ja Lopeta peli
                     - Jos ruudussa ei ole miinaa, ruudusta paljastuu joko numero tai tyhjä ruutu. 
                       - Numero kertoo sen, moneenko miinaan kyseinen ruutu on yhteydessä.
                       - Jos ruutu on tyhjä ja se on yhteydessä muihin tyhjiin ruutuihin, avautuvat kaikki siihen yhteydessä 
-                        olevat tyhjät ruudut. Avautuminen päättyy tyhjien ruutujen jälkeisiin numeroruutuihin, jotka vielä avatautuvat.
+                        olevat tyhjät ruudut. Avautuminen päättyy tyhjien ruutujen jälkeisiin numeroruutuihin, 
+                        jotka vielä avatautuvat.
 
                   - Oletetun miinan sijainti voidaan merkata hiiren oikealla painikkeella. Ruutuun tulee tällöin huutomerkki.
                     Merkki voidaan poistaa painamalla hiiren oikeaa painiketta uudelleen.
@@ -47,7 +48,9 @@ Toiminnot ovat: Uusi peli, Tilastot ja Lopeta peli
                     tekstimuodossa ja tallentuvat tulokset.txt -tekstitiedostoon.
         
 -TILASTOT
+
   - Näyttää pelatut pelit järjestyksessä uusin alimmaisena
+
     - Tallentaa seuraavat tiedot tekstitiedostoon:
       - Pelaajan nimi
       - Tulos: Voitto tai häviö
