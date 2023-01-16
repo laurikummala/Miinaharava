@@ -10,8 +10,7 @@ Toiminnot ovat: Uusi peli, Tilastot ja Lopeta peli
 
 -UUSI PELI
   
-  -> Ohjelma kysyy pelaajan nimeä
-    -Nimi voi olla mikä tahansa kirjain- tai merkkiyhdistelmä
+  -> Ohjelma kysyy pelaajan nimeä. Nimi voi olla mikä tahansa kirjain- tai merkkiyhdistelmä
       
     -> Vaikeustason valinta:
 
