@@ -33,7 +33,7 @@ Toiminnot ovat: Uusi peli, Tilastot ja Lopeta peli
                    sekä kulunut aika.
 
                   - Ruutuja avataan painamalla hiiren vasenta painiketta, jos ruudussa on miina, peli loppuu ja kyseisen pelin 
-                    tilastot näytetään tekstimuodossa. Tiedot tallentuvat myös tulokset.txt -tekstitiedostoon.
+                    tilastot näytetään tekstimuodossa. Tiedot tallentuvat tulokset.txt nimiseeen tekstitiedostoon.
 
                     - Jos ruudussa ei ole miinaa, ruudusta paljastuu joko numero tai tyhjä ruutu. 
                       - Numero kertoo sen, moneenko miinaan kyseinen ruutu on yhteydessä.
@@ -45,13 +45,13 @@ Toiminnot ovat: Uusi peli, Tilastot ja Lopeta peli
                     Merkki voidaan poistaa painamalla hiiren oikeaa painiketta uudelleen.
 
                   - Jos kaikki ruudut on avattu osumatta miinaan, peli päättyy voitton. Kyseisen pelin tiedot näkyvät 
-                    tekstimuodossa ja tallentuvat tulokset.txt -tekstitiedostoon.
+                    tekstimuodossa ja tallentuvat tulokset.txt nimiseen tekstitiedostoon.
         
 -TILASTOT
 
   - Näyttää pelatut pelit järjestyksessä uusin alimmaisena
 
-    - Tallentaa seuraavat tiedot tekstitiedostoon:
+    - Tallentaa seuraavat tiedot tilastot.txt nimiseen tekstitiedostoon:
       - Pelaajan nimi
       - Tulos: Voitto tai häviö
       - Kesto minuuteissa
