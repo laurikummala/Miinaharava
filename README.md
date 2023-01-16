@@ -27,10 +27,9 @@ Toiminnot ovat: Uusi peli, Tilastot ja Lopeta peli
             - Jos ruutujen tai miinojen määrä ei ole kokonaisluku, tulee virheilmoitus
 
               - Kun kaikki kysytyt tiedot on oikein asetettu, ohjelma luo halutun kokoisen kentän ja asettaa miinat kentälle 
-                  satunnaiseen järjestykseen.
+                satunnaiseen järjestykseen.
                 - Peli-ikkuna avautuu ja miinojen etsiminen voi alkaa. Ikkunan ylälaidasta näkyvät tehtyjen klikkausten määrä, 
-                  jäljellä olevien miinojen määrä, 
-                   sekä kulunut aika.
+                  jäljellä olevien miinojen määrä, sekä kulunut aika.
 
                   - Ruutuja avataan painamalla hiiren vasenta painiketta, jos ruudussa on miina, peli loppuu ja kyseisen pelin 
                     tilastot näytetään tekstimuodossa. Tiedot tallentuvat tulokset.txt nimiseeen tekstitiedostoon.
